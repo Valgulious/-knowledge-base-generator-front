@@ -34,4 +34,8 @@ export default class StepInteractor {
     public setIndKnowledgeBaseGenerationStep() {
         this.appRepository.setStep(Step.IndKnowledgeBaseGeneration);
     }
+
+    public setCompareStep() {
+        this.appRepository.setStep(Step.Compare);
+    }
 }

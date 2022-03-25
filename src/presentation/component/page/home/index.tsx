@@ -12,6 +12,7 @@ import Form from './Form';
 import Tables from './Tables';
 import DiseaseHistoriesTable from './DiseaseHistoriesTable';
 import IndKnowledgeGenerationButton from './IndKnowledgeGenerationButton';
+import CompareTables from './CompareTables';
 
 const HomePage = observer(() => {
     const {
@@ -22,6 +23,7 @@ const HomePage = observer(() => {
         setShowDiseaseHistoriesStep,
         setIndKnowledgeBaseGenerationStep,
         setIndKnowledgeBaseStep,
+        setCompareStep,
         periods,
         hasHistories,
         hasIndPeriods,
@@ -48,6 +50,10 @@ const HomePage = observer(() => {
                     setIndKnowledgeBaseGenerationStep();
                 }
             }
+
+            if (newValue === 3) {
+                setCompareStep();
+            }
         } else if (hasPeriods) {
             setShowTablesStep();
         } else {
@@ -66,6 +72,7 @@ const HomePage = observer(() => {
                 <Tab label="База знаний" />
                 <Tab label="Выборка" disabled={!hasPeriods} />
                 <Tab label="Инд. База знаний" disabled={!hasHistories} />
+                <Tab label="Сравнение" disabled={!hasHistories && !hasIndPeriods} />
             </Tabs>
             {step === Step.InputData && <Form />}
             {step === Step.SampleGeneration && <DiseaseHistoriesForm />}
@@ -74,6 +81,7 @@ const HomePage = observer(() => {
             {step === Step.ShowDiseaseHistories && <DiseaseHistoriesTable />}
             {step === Step.LoadState && <Loader />}
             {step === Step.IndKnowledgeBaseGeneration && <IndKnowledgeGenerationButton />}
+            {step === Step.Compare && <CompareTables />}
         </Layout>
     );
 });

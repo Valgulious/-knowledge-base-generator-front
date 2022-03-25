@@ -87,6 +87,10 @@ export default class AppController {
         this.stepInteractor.setShowDiseaseHistoriesStep();
     };
 
+    public setCompareStep = (): void => {
+        this.stepInteractor.setCompareStep();
+    };
+
     public setInputDataStep = (): void => {
         this.stepInteractor.setInputDataStep();
     };

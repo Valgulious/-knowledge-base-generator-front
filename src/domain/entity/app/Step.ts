@@ -6,6 +6,7 @@ enum Step {
     LoadState,
     IndKnowledgeBase,
     IndKnowledgeBaseGeneration,
+    Compare,
 }
 
 export default Step;
