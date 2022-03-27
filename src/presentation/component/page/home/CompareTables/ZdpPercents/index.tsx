@@ -19,10 +19,10 @@ interface Column {
 
 const COLUMNS: Column[] = [
     { id: 'disease', label: 'Класс' },
-    { id: 'green', label: 'Зелёный', backgroundColor: 'green' },
-    { id: 'blue', label: 'Синий', backgroundColor: 'blue' },
-    { id: 'yellow', label: 'Жёлтый', backgroundColor: 'yellow' },
-    { id: 'red', label: 'красный', backgroundColor: 'red' },
+    { id: 'green', label: 'Совпадает', backgroundColor: 'green' },
+    { id: 'blue', label: 'ИФБЗ подмножество МБЗ', backgroundColor: 'blue' },
+    { id: 'yellow', label: 'МБЗ подмножество ИФБЗ', backgroundColor: 'yellow' },
+    { id: 'red', label: 'Остальные случаи', backgroundColor: 'red' },
 ];
 
 const ZdpPercents = observer(() => {
