@@ -7,27 +7,29 @@ import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
-import Period from 'domain/entity/period/Period';
+import { useService } from 'presentation/context/Container';
+import AppController from 'presentation/controller/app/AppController';
 
 interface Column {
-    id: 'disease' | 'attribute' | 'amount';
+    id: 'disease' | 'attribute' | 'amount1' | 'amount2';
     label: string;
 }
 
 const COLUMNS: Column[] = [
     { id: 'disease', label: 'Класс' },
     { id: 'attribute', label: 'Признак' },
-    { id: 'amount', label: 'ЧПД' },
+    { id: 'amount1', label: 'ЧПД (МБЗ)' },
+    { id: 'amount2', label: 'ЧПД (ИФБЗ)' },
 ];
 
 type PropsT = {
-    periods: Period[];
     page: number;
     rowsPerPage: number;
 };
 
 const Table: FC<PropsT> = observer((props) => {
-    const { periods, page, rowsPerPage } = props;
+    const { page, rowsPerPage } = props;
+    const { compareConfigs } = useService(AppController);
 
     return (
         <Paper>
@@ -36,20 +38,31 @@ const Table: FC<PropsT> = observer((props) => {
                     <TableHead>
                         <TableRow>
                             {COLUMNS.map(({ id, label }) => (
-                                <TableCell key={`compare-chpd-${id}`}>{label}</TableCell>
+                                <TableCell key={`compare-chpd-${id}`} align="center">
+                                    {label}
+                                </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {periods
+                        {compareConfigs
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map(({ id, disease, attribute, amount }) => (
-                                <TableRow key={`compare-row-chpd-${id}`}>
-                                    <TableCell>{disease.name}</TableCell>
-                                    <TableCell>{attribute.name}</TableCell>
-                                    <TableCell>{amount}</TableCell>
-                                </TableRow>
-                            ))}
+                            .map(({ id, disease, attribute, amount, indAmount }) => {
+                                const backgroundColor = indAmount === amount ? 'green' : 'yellow';
+
+                                return (
+                                    <TableRow key={`compare-row-chpd-${id}`}>
+                                        <TableCell align="center">{disease.name}</TableCell>
+                                        <TableCell align="center">{attribute.name}</TableCell>
+                                        <TableCell align="center" style={{ backgroundColor }}>
+                                            {amount}
+                                        </TableCell>
+                                        <TableCell align="center" style={{ backgroundColor }}>
+                                            {indAmount}
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })}
                     </TableBody>
                 </BaseTable>
             </TableContainer>

@@ -6,6 +6,7 @@ import Period from 'domain/entity/period/Period';
 import PeriodForDownloading from 'domain/entity/period/PeriodForDownloading';
 import Disease from 'domain/entity/disease/Disease';
 import Attribute from 'domain/entity/attribute/Attribute';
+import CompareConfig from 'domain/entity/compareConfig/CompareConfig';
 import AttributeForDownloading from 'domain/entity/attribute/AttributeForDownloading';
 import AmountOfPeriods from 'domain/entity/AmountOfPeriods';
 import Step from 'domain/entity/app/Step';
@@ -23,6 +24,8 @@ import GenerateIndAttributesUseCase from 'domain/interactor/attribute/GenerateIn
 import IndAttributeRepository from 'domain/repository/attribute/IndAttributeRepository';
 import GenerateIndPeriodsUseCase from 'domain/interactor/period/GenerateIndPeriodsUseCase';
 import IndPeriodRepository from 'domain/repository/period/IndPeriodRepository';
+import CompareRepository from 'domain/repository/compare/CompareRepository';
+import CompareUseCase from 'domain/interactor/compare/CompareUseCase';
 import StepInteractor from 'domain/interactor/app/StepInteractor';
 
 @injectable()
@@ -65,6 +68,12 @@ export default class AppController {
 
     @inject(IndPeriodRepository)
     private readonly indPeriodRepository!: IndPeriodRepository;
+
+    @inject(CompareRepository)
+    private readonly compareRepository!: CompareRepository;
+
+    @inject(CompareUseCase)
+    private readonly compareUseCase!: CompareUseCase;
 
     public handleFormSubmit: SubmitHandlerT<FormData> = (formData) => {
         const { diseasesAmount, attributesAmount, periodsAmount } = formData;
@@ -189,13 +198,59 @@ export default class AppController {
         return periodsForDownloading;
     };
 
+    public getAmountPercents = (diseaseId: Disease['id']): number => {
+        return this.compareRepository.getAmountPercents(diseaseId);
+    };
+
+    public getValuesPercents = (diseaseId: Disease['id']): number => {
+        return this.compareRepository.getValuesPercents(diseaseId);
+    };
+
+    public getBlueValuesPercents = (diseaseId: Disease['id']): number => {
+        return this.compareRepository.getBlueValuesPercents(diseaseId);
+    };
+
+    public getYellowValuesPercents = (diseaseId: Disease['id']): number => {
+        return this.compareRepository.getYellowValuesPercents(diseaseId);
+    };
+
+    public getRedValuesPercents = (diseaseId: Disease['id']): number => {
+        return this.compareRepository.getRedValuesPercents(diseaseId);
+    };
+
     public setDiseaseHistories = (diseaseHistories: DiseaseHistory[]) => {
         this.diseaseHistoryRepository.setDiseaseHistories(diseaseHistories);
     };
 
     public setIndPeriods = (periods: Period[]) => {
+        this.compareRepository.clearConfig();
         this.indPeriodRepository.setPeriods(periods);
+        this.compareUseCase.execute();
     };
+
+    public get compareConfigs(): CompareConfig[] {
+        return this.compareRepository.getCompareConfigs();
+    }
+
+    public get commonAmountPercents(): number {
+        return this.compareRepository.getCommonAmountPercent();
+    }
+
+    public get commonValuesPercents(): number {
+        return this.compareRepository.getCommonValuesPercent();
+    }
+
+    public get commonBlueValuesPercent(): number {
+        return this.compareRepository.getCommonBlueValuesPercent();
+    }
+
+    public get commonYellowValuesPercent(): number {
+        return this.compareRepository.getCommonYellowValuesPercent();
+    }
+
+    public get commonRedValuesPercent(): number {
+        return this.compareRepository.getCommonRedValuesPercent();
+    }
 
     public get step(): Step {
         return this.appRepository.getStep();

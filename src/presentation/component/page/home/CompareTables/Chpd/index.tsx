@@ -1,13 +1,14 @@
 import { ChangeEvent, useState } from 'react';
 import { observer } from 'mobx-react';
 import TablePagination from '@material-ui/core/TablePagination';
+import Paper from '@material-ui/core/Paper';
 import { useService } from 'presentation/context/Container';
 import AppController from 'presentation/controller/app/AppController';
 import Table from './Table';
 import { Wrapper } from './styles';
 
 const Chpd = observer(() => {
-    const { periods, indPeriods } = useService(AppController);
+    const { compareConfigs } = useService(AppController);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -21,21 +22,20 @@ const Chpd = observer(() => {
     };
 
     return (
-        <>
+        <Paper>
             <Wrapper>
-                <Table periods={periods} page={page} rowsPerPage={rowsPerPage} />
-                <Table periods={indPeriods} page={page} rowsPerPage={rowsPerPage} />
+                <Table page={page} rowsPerPage={rowsPerPage} />
             </Wrapper>
             <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={periods.length}
+                count={compareConfigs.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-        </>
+        </Paper>
     );
 });
 

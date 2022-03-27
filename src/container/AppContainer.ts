@@ -9,6 +9,7 @@ import IndAttributeRepository from 'domain/repository/attribute/IndAttributeRepo
 import IndPeriodRepository from 'domain/repository/period/IndPeriodRepository';
 import AttributeRepository from 'domain/repository/attribute/AttributeRepository';
 import DiseaseHistoryRepository from 'domain/repository/diseaseHistory/DiseaseHistoryRepository';
+import CompareRepository from 'domain/repository/compare/CompareRepository';
 import AppRepositoryImpl from 'data/driver/app/AppRepositoryImpl';
 import PeriodsRepositoryImpl from 'data/driver/period/PeriodsRepositoryImpl';
 import DiseaseRepositoryImpl from 'data/driver/disease/DiseaseRepositoryImpl';
@@ -17,6 +18,7 @@ import IndDiseaseRepositoryImpl from 'data/driver/disease/IndDiseaseRepositoryIm
 import IndAttributesRepositoryImpl from 'data/driver/attribute/IndAttributesRepositoryImpl';
 import IndPeriodsRepositoryImpl from 'data/driver/period/IndPeriodsRepositoryImpl';
 import DiseaseHistoryRepositoryImpl from 'data/driver/diseaseHistory/DiseaseHistoryRepositoryImpl';
+import CompareRepositoryImpl from 'data/driver/compare/CompareRepositoryImpl';
 
 class AppContainer extends Container {
     /**
@@ -39,6 +41,7 @@ class AppContainer extends Container {
         this.bind(IndAttributeRepository).to(IndAttributesRepositoryImpl);
         this.bind(IndPeriodRepository).to(IndPeriodsRepositoryImpl);
         this.bind(DiseaseHistoryRepository).to(DiseaseHistoryRepositoryImpl);
+        this.bind(CompareRepository).to(CompareRepositoryImpl);
     }
 }
 
